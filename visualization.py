@@ -241,4 +241,4 @@ if __name__ == '__main__':
         trained_weights = pickle.load(f)
     outputdir = sys.argv[2]
     smiles = sys.argv[3:]
-    plot(trained_weights, smiles)
+    plot(trained_weights, smiles, outputdir)

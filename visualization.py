@@ -173,7 +173,7 @@ def construct_atom_neighbor_list(array_rep):
     return atom_neighbour_list
 
 
-def plot(trained_weights, smiles):
+def plot(trained_weights, smiles, outputdir):
     train_smiles = smiles
 
     print "Convnet fingerprints with neural net"
@@ -182,7 +182,7 @@ def plot(trained_weights, smiles):
        build_convnet_fingerprint_fun(**conv_arch_params)
     atom_activations, array_rep = compute_atom_activations(trained_weights, train_smiles)
 
-    if not os.path.exists('figures'): os.makedirs('figures')
+    if not os.path.exists(outputdir): os.makedirs(outputdir)
 
     parent_molecule_dict = {}
     for mol_ix, atom_ixs in enumerate(array_rep['atom_list']):
@@ -230,7 +230,7 @@ def plot(trained_weights, smiles):
 
             print "radius:", cur_radius, "atom list:", highlight_list_rdkit, "activation", activation
             draw_molecule_with_highlights(
-                "figures/fp_{0}_highlight_{1}.png".format(fp_ix, fig_ix),
+                "{2}/fp_{0}_highlight_{1}.png".format(fp_ix, fig_ix, outputdir),
                 train_smiles[most_activating_mol_ix],
                 highlight_list_rdkit,
                 last_layer_weights[fp_ix][0], activation, fp_ix)
@@ -239,5 +239,6 @@ if __name__ == '__main__':
     # Plotting.
     with open(sys.argv[1]) as f:
         trained_weights = pickle.load(f)
-    smiles = sys.argv[2:]
+    outputdir = sys.argv[2]
+    smiles = sys.argv[3:]
     plot(trained_weights, smiles)

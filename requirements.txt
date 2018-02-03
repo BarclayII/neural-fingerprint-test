@@ -1,0 +1,2 @@
+autograd
+git+git://github.com/HIPS/neural-fingerprint
